@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Command Line Interface for Batara Guru."""
+"""Command Line Interface for batara-guru."""
 
 import argparse
 import sys
@@ -16,11 +16,11 @@ from .utils.timer import Timer
 def print_header():
     """Print ASCII art header."""
     print("\n" + "=" * 70)
-    print(" " * 15 + "BATARA GURU - RULE 30 ANALYZER")
+    print(" " * 15 + "batara-guru - RULE 30 ANALYZER")
     print(" " * 20 + "Parallel Numba Processing")
     print(" " * 25 + "Version 0.0.1")
     print("=" * 70)
-    print("\n  Authors: Sandy H. S. Herho, Gandhi Napitupulu")
+    print("\n  Authors: Sandy H. S. Herho and Gandhi Napitupulu")
     print("\n  License: MIT License")
     print("=" * 70 + "\n")
 
@@ -60,7 +60,7 @@ def run_scenario(config: dict, output_dir: str = "outputs",
         # Initialize solver
         with timer.time_section("solver_init"):
             if verbose:
-                print("\n[1/4] Initializing Rule 30 solver...")
+                print("\n[1/5] Initializing Rule 30 solver...")
             
             solver = Rule30Solver(
                 width=config.get('grid_width', 501),
@@ -73,7 +73,7 @@ def run_scenario(config: dict, output_dir: str = "outputs",
         # Run simulation
         with timer.time_section("simulation"):
             if verbose:
-                print("\n[2/4] Running Rule 30 evolution...")
+                print("\n[2/5] Running Rule 30 evolution...")
             
             result = solver.evolve(
                 initial_condition=config.get('initial_condition', 'single'),
@@ -87,7 +87,7 @@ def run_scenario(config: dict, output_dir: str = "outputs",
         if config.get('save_netcdf', True):
             with timer.time_section("save_netcdf"):
                 if verbose:
-                    print("\n[3/4] Saving NetCDF file...")
+                    print("\n[3/5] Saving NetCDF file...")
                 
                 filename = f"{clean_name}.nc"
                 DataHandler.save_netcdf(filename, result, config, output_dir)
@@ -95,11 +95,25 @@ def run_scenario(config: dict, output_dir: str = "outputs",
                 if verbose:
                     print(f"       ✓ Saved: {output_dir}/{filename}")
         
+        # Save CSV files
+        with timer.time_section("save_csv"):
+            if verbose:
+                print("\n[4/5] Saving CSV files...")
+            
+            entropy_file, complexity_file, composite_file = DataHandler.save_csv(
+                clean_name, result, config, output_dir
+            )
+            
+            if verbose:
+                print(f"       ✓ Saved: {entropy_file.name}")
+                print(f"       ✓ Saved: {complexity_file.name}")
+                print(f"       ✓ Saved: {composite_file.name}")
+        
         # Create plot
         if config.get('save_plot', True):
             with timer.time_section("plot"):
                 if verbose:
-                    print("\n[4/4] Creating spatio-temporal plot...")
+                    print("\n[5/5] Creating spatio-temporal plot...")
                 
                 filename = f"{clean_name}.png"
                 dpi = config.get('plot_dpi', 350)

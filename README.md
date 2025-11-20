@@ -6,34 +6,45 @@
 [![Matplotlib](https://img.shields.io/badge/Matplotlib-%23ffffff.svg?logo=Matplotlib&logoColor=black)](https://matplotlib.org/)
 [![Numba](https://img.shields.io/badge/accelerated-numba-orange.svg)](https://numba.pydata.org/)
 
-High-performance Rule 30 cellular automaton simulator with parallel processing and entropy analysis.
+A fundamental implementation of Rule 30 cellular automaton with parallel processing for educational and research purposes.
 
 ## Context
 
-Rule 30 is an elementary cellular automaton that exhibits chaotic behavior:
+Rule 30 is an elementary cellular automaton introduced by Stephen Wolfram that exhibits complex, chaotic behavior from simple deterministic rules.
 
-**Evolution Rule**: For each cell and its two neighbors, the next state is determined by:
-```
-111 → 0    110 → 0    101 → 0    100 → 1
-011 → 1    010 → 1    001 → 1    000 → 0
-```
+**Mathematical Definition**: Let $s_i^t \in \{0,1\}$ denote the state of cell $i$ at time $t$. The evolution rule is:
 
-**Binary representation**: 00011110₂ = 30₁₀
+$$s_i^{t+1} = s_{i-1}^t \oplus (s_i^t \lor s_{i+1}^t)$$
+
+where $\oplus$ is XOR, $\lor$ is OR.
+
+**Binary representation**: $00011110_2 = 30_{10}$
+
+The system exhibits:
+- **Chaos**: Sensitive dependence on initial conditions
+- **Irreversibility**: Information loss over time
+- **Complexity**: Wolfram Class III behavior
 
 ## Features
 
-- **Parallel Numba JIT**: Multi-core optimized evolution
-- **Entropy Analysis**: Shannon entropy and complexity with tqdm
-- **Full Pyramid Visualization**: Complete non-truncated patterns
-- **High-Quality Plots**: Publication-ready figures (350-600 DPI)
-- **NetCDF Output**: Compressed data storage
-- **4 Test Cases**: Different scales showing complete pyramids
+This implementation provides basic tools for studying Rule 30:
+
+- **Parallel Numba JIT**: Multi-core evolution for computational efficiency
+- **Entropy Analysis**: Shannon entropy $H = -\sum p_i \log_2 p_i$ and local complexity
+- **Complete Pyramids**: Non-truncated patterns for boundary-free analysis
+- **NetCDF & CSV Output**: Standard formats for data archiving and analysis
+- **Publication Figures**: High-resolution plots (350-600 DPI)
 
 ## Installation
 
+**From PyPI:**
 ```bash
-chmod +x setup_batara_guru.sh
-./setup_batara_guru.sh
+pip install batara-guru
+```
+
+**From source:**
+```bash
+git clone https://github.com/sandyherho/batara-guru.git
 cd batara-guru
 pip install -e .
 ```
@@ -45,7 +56,7 @@ pip install -e .
 # Run single case (uses all CPU cores by default)
 batara-guru case1
 
-# Run all cases
+# Run all test cases
 batara-guru --all
 
 # Specify CPU cores
@@ -60,7 +71,6 @@ batara-guru case1 --dpi 600
 from batara_guru import Rule30Solver
 
 solver = Rule30Solver(width=501, steps=250, n_cores=8)
-
 result = solver.evolve(initial_condition='single')
 
 print(f"Final entropy: {result['entropy'][-1]:.4f}")
@@ -69,53 +79,74 @@ print(f"Mean complexity: {result['mean_complexity']:.4f}")
 
 ## Test Cases
 
-All cases show complete pyramidal patterns:
+Provided test cases for pedagogical purposes:
 
-| Case | Description | Width | Steps | DPI | Pattern |
+| Case | Description | Width | Steps | DPI | Purpose |
 |------|-------------|-------|-------|-----|---------|
-| 1 | Small Pyramid | 251 | 125 | 350 | Complete small-scale |
-| 2 | Medium Pyramid | 501 | 250 | 400 | Classic medium-scale |
-| 3 | Large Pyramid | 1001 | 500 | 500 | Large-scale detail |
-| 4 | Extra Large | 2001 | 1000 | 600 | Maximum resolution |
+| 1 | Small | 251 | 125 | 350 | Quick demonstration |
+| 2 | Medium | 501 | 250 | 400 | Standard analysis |
+| 3 | Large | 1001 | 500 | 500 | High-detail study |
+| 4 | Extra Large | 2001 | 1000 | 600 | Publication quality |
+
+All cases maintain $t < w/2$ to ensure complete pyramidal patterns without boundary interactions.
 
 ## Configuration
 
+Example configuration file:
 ```text
 grid_width = 501           # Number of cells
 time_steps = 250           # Evolution steps (< width/2 for full pyramid)
-initial_condition = single # Always single center cell
+initial_condition = single # Single center cell (standard)
 center_position = 250      # Auto-calculated if not specified
-plot_dpi = 400            # Output image DPI
+plot_dpi = 400            # Output image resolution
 save_netcdf = true        # Save NetCDF file
 save_plot = true          # Save PNG plot
 colormap = binary         # Color scheme
 ```
 
-## Output
+## Output Files
 
-**NetCDF variables:**
-- `grid(time,x)`: Complete evolution history
-- `entropy(time)`: Shannon entropy per timestep
-- `complexity(time)`: Local complexity per timestep
+For each simulation, the following files are generated:
 
-**PNG plots:**
-- Clean spatio-temporal evolution
-- Full pyramid visualization
+**NetCDF** (`.nc`):
+- `grid(time, x)`: Complete evolution history
+- `entropy(time)`: Shannon entropy $H(t)$
+- `complexity(time)`: Normalized transition density
+
+**CSV** (`.csv`):
+- `{scenario}_entropy.csv`: Time series of entropy values
+- `{scenario}_complexity.csv`: Time series of complexity values
+- `{scenario}_composite.csv`: Combined entropy and complexity
+
+**PNG** (`.png`):
+- Spatio-temporal visualization of evolution
+
+## Metrics
+
+**Shannon Entropy**: 
+$$H(t) = -p_1 \log_2 p_1 - p_0 \log_2 p_0$$
+where $p_1 = N_1/N$ is the fraction of alive cells.
+
+**Local Complexity**: 
+$$C(t) = \frac{1}{N} \sum_{i=1}^{N} |s_i^t - s_{i+1}^t|$$
+measuring spatial transition density.
 
 ## Parallel Processing
 
-By default, uses all available CPU cores. Specify custom core count:
+Utilizes all available CPU cores by default. Override with:
 
 ```bash
 batara-guru case3 --cores 8
 ```
 
-Or in Python:
+Or programmatically:
 ```python
 solver = Rule30Solver(width=1001, steps=500, n_cores=8)
 ```
 
 ## Citation
+
+If this tool is useful for your research or teaching, please cite:
 
 ```bibtex
 @software{batara_guru_2025,
@@ -123,6 +154,7 @@ solver = Rule30Solver(width=1001, steps=500, n_cores=8)
   title = {\texttt{batara-guru}: Python-based Rule 30 cellular automaton analyzer},
   year = {2025},
   version = {0.0.1},
+  url = {https://github.com/yourusername/batara-guru},
   license = {MIT}
 }
 ```
@@ -135,3 +167,7 @@ solver = Rule30Solver(width=1001, steps=500, n_cores=8)
 ## License
 
 MIT License - See [LICENSE](LICENSE) for details.
+
+## Acknowledgments
+
+This is an educational implementation inspired by Wolfram's pioneering work on cellular automata. For comprehensive cellular automata research, see [Wolfram's *A New Kind of Science*](https://www.wolframscience.com/).
