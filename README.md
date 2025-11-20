@@ -14,7 +14,7 @@ Rule 30 is an elementary cellular automaton introduced by Stephen Wolfram that e
 
 **Mathematical Definition**: Let $s_i^t \in \{0,1\}$ denote the state of cell $i$ at time $t$. The evolution rule is:
 
-$$s_i^{t+1} = s_{i-1}^t \oplus (s_i^t \lor s_{i+1}^t)$$
+$$s_i^{t+1} = s_{i-1}^t \oplus (s_i^t \lor s_{i+1}^t),$$
 
 where $\oplus$ is XOR, $\lor$ is OR.
 
