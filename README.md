@@ -1,4 +1,4 @@
-# `batara-guru`: Rule 30 Cellular Automaton Analyzer
+# `batara-guru`: Python-based rule 30 cellular automaton analyzer
 
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -8,7 +8,7 @@
 
 High-performance Rule 30 cellular automaton simulator with parallel processing and entropy analysis.
 
-## Physics
+## Context
 
 Rule 30 is an elementary cellular automaton that exhibits chaotic behavior:
 
@@ -121,7 +121,7 @@ solver = Rule30Solver(width=1001, steps=500, n_cores=8)
 ```bibtex
 @software{batara_guru_2025,
   author = {Herho, Sandy H. S. and Napitupulu, Gandhi},
-  title = {Batara Guru: Rule 30 Cellular Automaton Analyzer},
+  title = {\texttt{batara-guru}: Python-based Rule 30 cellular automaton analyzer},
   year = {2025},
   version = {0.0.1},
   license = {MIT}
