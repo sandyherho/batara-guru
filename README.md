@@ -67,9 +67,9 @@ print(f"Final entropy: {result['entropy'][-1]:.4f}")
 print(f"Mean complexity: {result['mean_complexity']:.4f}")
 ```
 
-## Test Cases - Full Pyramids
+## Test Cases
 
-All cases show complete, non-truncated pyramidal patterns:
+All cases show complete pyramidal patterns:
 
 | Case | Description | Width | Steps | DPI | Pattern |
 |------|-------------|-------|-------|-----|---------|
@@ -100,7 +100,6 @@ colormap = binary         # Color scheme
 
 **PNG plots:**
 - Clean spatio-temporal evolution
-- No titles or subplots (publication-ready)
 - Full pyramid visualization
 
 ## Parallel Processing
