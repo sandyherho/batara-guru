@@ -1,0 +1,18 @@
+# Case 3: Large Complete Pyramid
+# High detail visualization
+
+scenario_name = Case 3 - Large Pyramid
+
+# Grid parameters (full pyramid: steps < width/2)
+grid_width = 1001
+time_steps = 500
+
+# Initial condition (always single for pyramid)
+initial_condition = single
+center_position = 500
+
+# Output
+save_netcdf = true
+save_plot = true
+plot_dpi = 500
+colormap = binary

@@ -1,0 +1,18 @@
+# Case 4: Extra Large Complete Pyramid
+# Maximum resolution
+
+scenario_name = Case 4 - Extra Large Pyramid
+
+# Grid parameters (full pyramid: steps < width/2)
+grid_width = 2001
+time_steps = 1000
+
+# Initial condition (always single for pyramid)
+initial_condition = single
+center_position = 1000
+
+# Output
+save_netcdf = true
+save_plot = true
+plot_dpi = 600
+colormap = binary

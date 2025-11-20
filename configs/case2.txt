@@ -1,0 +1,18 @@
+# Case 2: Medium Complete Pyramid
+# Standard scale demonstration
+
+scenario_name = Case 2 - Medium Pyramid
+
+# Grid parameters (full pyramid: steps < width/2)
+grid_width = 501
+time_steps = 250
+
+# Initial condition (always single for pyramid)
+initial_condition = single
+center_position = 250
+
+# Output
+save_netcdf = true
+save_plot = true
+plot_dpi = 400
+colormap = binary

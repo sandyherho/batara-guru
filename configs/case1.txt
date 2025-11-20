@@ -1,0 +1,18 @@
+# Case 1: Small Complete Pyramid
+# Classic demonstration at small scale
+
+scenario_name = Case 1 - Small Pyramid
+
+# Grid parameters (full pyramid: steps < width/2)
+grid_width = 251
+time_steps = 125
+
+# Initial condition (always single for pyramid)
+initial_condition = single
+center_position = 125
+
+# Output
+save_netcdf = true
+save_plot = true
+plot_dpi = 350
+colormap = binary
